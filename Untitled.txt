@@ -1,0 +1,82 @@
+1. Following are some of the important data metrics extracted from the dataset that are interesting to me.
+    a. Total count in client purchase history  - 1314922
+    b. Total count in client census dataset    - 514976
+    c. Total count of missing Product_Group    - 27871
+    d. Total count of missing Industry Segment - 607814
+    e. Total count of missing Fee Revenue      - 1018400
+    f. Total count of missing DUNS Number      - 606951
+    g. Total count of missing Client Offices   - 614126      
+
+2. There are several NULL values in some of the predictor variables like Fee_Revenue,  Client_Offices,  DUNS_Number and the percentage of missing values ranges from 45-80%. I do not think these variables hold any statistical significance for our prediction problem and I am anyways planning to drop these variables and do not see any need to impute the missing values on these variables.
+
+3. The target variable (Product Group) has a very small percentage of missing values and we will drop those values from Model training and evaluation. I believe the missing values on the target variable requires manual involvement and input from the business area to include them in the supervised learning process. There is a potential for these missing values to turn into a new label which may force our problem to be updated to a multiclass classification problem. For now,  we will ignore the missing values and proceed with the assumption that this is a binary classification problem.
+
+4. There are some variables with very strong positive and negative correlation which should technically be excluded from the model training (like for example,  zip code & cnty population),  I will drop some of them and leave the remaining to determine the importance of those features. There is a potential risk of overfitting but we should be able to re-train the model after observing the importance of those high correlation features.
+
+5. The numeric variables that are missing values and part of our feature space will be imputed to the mean value.
+
+6. Based on class frequency 80% of the observations have been classified as the "Primary" Product_Group which is significant observation. Will that mean most of the predictions would end up being classified as "Primary"? May be.
+
+7. City does not seem to be having a large effect on the Product_Group classification. The distribution is pretty much the same across all the cities. 
+
+8. Bivariate distribution was not so informative on how some of the numeric variables that I was interested in were distributed against the target variable.
+
+9. Market Type,  Revenue Segmentation,  Intermediary Market Type,  Region may have effect on our final prediction. Majority of the observations fall under "Type-1" Market Type category,  Central and South West regions have large number of observations and Segment-2 seems to have huge number of observations categorized under it.
+
+10. Product line distribution seems to be pretty much evenly distributed except for one specific category. Industry segment has several Unknown values and need to determine how this feature impacts the model with the unknown values.
+
+11. Some of the feature like the Client Key,  Source_System_Name,  census_match_id,  Policy_ID etc. will be dropped because they have a very low significance or impact to our model and the problem we are trying to solve.
+
+12. In attempt to make use of annual payroll,  population and number of employees,  I will group them under logical buckets as new features and use those derived features in model training & evaluation.
+
+13. Industry segment appears in different shape and form in the dataset. There is sic_level_2,  sic_level_2_name,  sic_level_8,  sic_level_8_name,  management_niche,  industrynicheconvention_desc,  NAICSlevel1_Name,  NAICSLevel1_Code. I dont think we would all these different levels of categorization and will choose only sic_level_8 and NAICSLevel1_Code for the model building and evaluation.
+
+14. The outlier records will be dropped because they are missing several features and may skew the model. The number of outlier records are minimal and I believe it should be ok to drop them.
+
+15. Features like zip code,  effective year etc. are actually categorical values and need to be transformed using some kind of encoding but the risk is that these features have a very high cardinality. We will try using one hot encoding/label encoder for these features and observe the results.
+
+
+Client_Key, DUNS_Number, Placement_Market_Group_Key, Placement_Market_Company_Key, SIC_Level_2, 
+             SIC_Level_2_Name, SIC_Level_8_Name, IndustryNicheConventionDesc, NAICSLevel1Name, 
+             Source_Product_Line, Brokerage_Expense, Commission_Revenue, Fee_Revenue, cnty_pop_2010, RUCC_2013, 
+             dcf_revenue, census_match_ind, PolicyID, Bill_Type, Source_System_Name, Management_Niche, 
+             Intermediary_Detail, Client_Offices
+
+
+References:
+
+BRE
+L. Breiman, J. Friedman, R. Olshen, and C. Stone. Classification and Regression Trees. Wadsworth, Belmont, CA, 1984.
+
+https://en.wikipedia.org/wiki/Decision_tree_learning
+
+https://en.wikipedia.org/wiki/Predictive_analytics
+
+J.R. Quinlan. C4. 5: programs for machine learning. Morgan Kaufmann, 1993.
+
+T. Hastie, R. Tibshirani and J. Friedman. Elements of Statistical Learning, Springer, 2009.
+
+
+Scikit-learn: Machine Learning in Python, Pedregosa et al., JMLR 12, pp. 2825-2830, 2011
+
+Lawrence A. Berger
+J. David Cummins
+University of Pennsylvania
+Patricia M. Danzon
+University of Pennsylvania
+Neil A. Doherty
+University of Pennsylvania
+James R. Garven
+University of Texas
+Scott E. Harrington
+University of South Carolina
+Robert W. Klein
+National Association of Insurance Commissioners
+James B. McDonald
+Brigham Young University
+Richard S.L. Roddis
+Stewart Economics, Inc.
+Barbara D. Stewart
+Stewart Economics, Inc.
+Richard E. Stewart
+Stewart Economics, Inc.
